@@ -1,9 +1,9 @@
-
+import Feed from "../components/Feed";
 
 export default function Home() {
   return (
     <div>
-      <p>Hello world</p>
+      <Feed />
     </div>
   );
 }
