@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 
 function Comment({ comment, onDelete, onLike, currentUser }) {
-  const isOwner = currentUser?.id === comment.user_id; 
+  const isOwner = currentUser?.id === comment.userId;
 
   const handleDeleteClick = (e) => {
     e.stopPropagation();
@@ -19,9 +19,8 @@ function Comment({ comment, onDelete, onLike, currentUser }) {
     <div className="border-b border-gray-200 p-4 ml-4">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
-          <Link href={`/users/${comment.user_id}`}>
+          <Link href={`/users/${comment.userId}`}>
             {" "}
-            
             <img
               src={comment.authorAvatarUrl || "URL_DE_VOTRE_AVATAR_PAR_DEFAUT"}
               alt={`${comment.author}'s avatar`}
@@ -30,14 +29,14 @@ function Comment({ comment, onDelete, onLike, currentUser }) {
           </Link>
 
           <Link
-            href={`/users/${comment.authorId}`}
+            href={`/users/${comment.userId}`}
             className="font-bold hover:text-blue-500 cursor-pointer"
           >
             @{comment.author}
           </Link>
         </div>
         <span className="text-gray-500 text-sm">
-          · {new Date(comment.created_at).toLocaleDateString()}
+          · {new Date(comment.createdAt).toLocaleDateString()}
         </span>
       </div>
 

@@ -33,12 +33,16 @@ function Tweet({ tweet, onDelete, onLike, currentUser }) {
       onLike(tweet.id);
     }
   };
-  console.log("Valeur brute de tweet.createdAt :", tweet.createdAt);
-  const formattedDate = new Date(tweet.createdAt).toLocaleDateString("fr-FR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+
+  const dateObj = new Date(tweet.createdAt);
+  const isDateValid = !isNaN(dateObj.getTime());
+  const formattedDate = isDateValid
+    ? dateObj.toLocaleDateString("fr-FR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "Date inconnue";
 
   return (
     <article
@@ -49,7 +53,7 @@ function Tweet({ tweet, onDelete, onLike, currentUser }) {
         <div className="flex items-center space-x-2">
           <Link href={`/users/${tweet.authorId}`} onClick={handleAuthorClick}>
             <img
-              src={tweet.authorAvatarUrl || "URL_DE_VOTRE_AVATAR_PAR_DEFAUT"}
+              src={tweet.authorAvatarUrl || "https://i.goopics.net/g87bze.png"}
               alt={`${tweet.author}'s avatar`}
               className="w-10 h-10 rounded-full object-cover"
             />

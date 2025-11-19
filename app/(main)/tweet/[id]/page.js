@@ -40,7 +40,7 @@ export default function TweetDetailPage({ params }) {
         }
       );
       const tweetData = await tweetRes.json();
-      
+
       setTweet(tweetData);
 
       const commentsRes = await fetch(
