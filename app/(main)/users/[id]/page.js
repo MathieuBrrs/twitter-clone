@@ -34,9 +34,12 @@ export default function UserProfilePage({ params }) {
 
     try {
       // Utilisez l'ID directement dans l'URL
-      const res = await fetch(`http://localhost:5000/api/users/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (!res.ok) {
         console.log("-> Réponse réseau non OK:", res.status);
@@ -44,7 +47,6 @@ export default function UserProfilePage({ params }) {
       }
 
       const data = await res.json();
-      console.log("-> Données reçues avec succès:", data);
       setProfileData(data);
       setLoading(false);
     } catch (err) {
@@ -71,10 +73,13 @@ export default function UserProfilePage({ params }) {
   const handleDeleteTweet = async (tweetId) => {
     const token = Cookies.get("authToken");
     try {
-      const res = await fetch(`http://localhost:5000/api/tweets/${tweetId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Suppression impossible");
@@ -97,7 +102,7 @@ export default function UserProfilePage({ params }) {
     const token = Cookies.get("authToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/tweets/${tweetId}/like`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}/like`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },

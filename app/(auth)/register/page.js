@@ -26,13 +26,16 @@ export default function RegisterPage() {
       alert("Le nom d'utilisateur doit contenir au moins 3 caractères");
       return;
     }
-    const res = await fetch("http://localhost:5000/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, username, confirmPassword }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, username, confirmPassword }),
+      }
+    );
     const data = await res.json();
     console.log(data);
     if (res.ok) router.push("/login");

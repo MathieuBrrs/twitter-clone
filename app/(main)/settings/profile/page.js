@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function EditProfilePage() {
-
   const [bio, setBio] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [coverUrl, setCoverUrl] = useState("");
@@ -14,7 +13,6 @@ export default function EditProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
       setBio(userData.bio || "");
@@ -28,30 +26,29 @@ export default function EditProfilePage() {
     setMessage("");
     const token = Cookies.get("authToken");
 
-    
-    const res = await fetch("http://localhost:5000/api/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        
-        bio: bio,
-        avatar_url: avatarUrl,
-        cover_url: coverUrl,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          bio: bio,
+          avatar_url: avatarUrl,
+          cover_url: coverUrl,
+        }),
+      }
+    );
 
     if (res.ok) {
       const responseData = await res.json();
 
       if (responseData && responseData.user) {
-        
         localStorage.setItem("user", JSON.stringify(responseData.user));
         setMessage("Profil mis à jour avec succès !");
 
-        
         router.push(`/users/${responseData.user.id}`);
       } else {
         setMessage(
@@ -78,7 +75,6 @@ export default function EditProfilePage() {
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        
         <div>
           <label
             htmlFor="bio"
@@ -95,7 +91,6 @@ export default function EditProfilePage() {
           />
         </div>
 
-        
         <div>
           <label
             htmlFor="avatarUrl"
@@ -112,7 +107,6 @@ export default function EditProfilePage() {
           />
         </div>
 
-        
         <div>
           <label
             htmlFor="coverUrl"

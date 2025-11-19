@@ -33,7 +33,7 @@ export default function TweetDetailPage({ params }) {
 
     try {
       const tweetRes = await fetch(
-        `http://localhost:5000/api/tweets/${tweetId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           cache: "no-store",
@@ -44,7 +44,7 @@ export default function TweetDetailPage({ params }) {
       setTweet(tweetData);
 
       const commentsRes = await fetch(
-        `http://localhost:5000/api/comments/tweet/${tweetId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/tweet/${tweetId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           cache: "no-store",
@@ -84,7 +84,7 @@ export default function TweetDetailPage({ params }) {
     const token = Cookies.get("authToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/tweets/${tweetId}/like`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}/like`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
@@ -110,7 +110,7 @@ export default function TweetDetailPage({ params }) {
     const token = Cookies.get("authToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/comments/${commentId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${commentId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -134,7 +134,7 @@ export default function TweetDetailPage({ params }) {
     const token = Cookies.get("authToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/comments/${commentId}/like`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${commentId}/like`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
@@ -159,10 +159,13 @@ export default function TweetDetailPage({ params }) {
   const handleDeleteTweet = async (tweetId) => {
     const token = Cookies.get("authToken");
     try {
-      const res = await fetch(`http://localhost:5000/api/tweets/${tweetId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Suppression impossible");
