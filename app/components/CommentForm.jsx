@@ -10,14 +10,17 @@ function CommentForm({ tweetId, onNewComment }) {
     if (!content.trim()) return;
 
     const token = Cookies.get("authToken");
-    const res = await fetch("http://localhost:5000/api/comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ content, tweet_id: tweetId }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ content, tweet_id: tweetId }),
+      }
+    );
 
     if (res.ok) {
       const newComment = await res.json();
