@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import TweetForm from "./TweetForm";
 import TweetList from "./TweetList";
 
-const API_BASE_URL = "http://localhost:5000/api";
+//const API_BASE_URL = "http://localhost:5000/api";
 
 function Feed() {
   const router = useRouter();
@@ -38,11 +38,14 @@ function Feed() {
     setError(null);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/tweets`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await res.json().catch(() => []);
       if (!res.ok) {
         throw new Error(data?.error || "Erreur lors du chargement des tweets");
@@ -88,12 +91,15 @@ function Feed() {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/tweets/${tweetId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Suppression impossible");
@@ -112,7 +118,7 @@ function Feed() {
     const token = Cookies.get("authToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/tweets/${tweetId}/like`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets/${tweetId}/like`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },

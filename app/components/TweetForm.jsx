@@ -18,14 +18,17 @@ function TweetForm({ onNewTweet, currentUser }) {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch("http://localhost:5000/api/tweets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tweets`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.error || "Erreur lors de l'envoi du tweet");
